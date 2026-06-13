@@ -4,17 +4,17 @@
 
 ---
 
-## ✨ What is this?
+## What is this?
 
 Omniscientia is a single-file encyclopedia that lives in your browser. No frameworks, no builds, no sign-ups. Just open `index.html` and start exploring.
 
 It stitches together live data, research papers, discussions, and encyclopedia entries across five fields:
 
-- 🚀 **Space** — NASA, SpaceX, ISS tracking, astronomy
-- ⚡ **Energy** — carbon intensity, renewables, grid data
-- 🌐 **Internet & Web** — protocols, open source, trending repos
-- 🤖 **Artificial Intelligence** — machine learning, LLMs, neural networks
-- 🧬 **Health & Biotech** — genomics, CRISPR, epidemiology
+-  **Space** — NASA, SpaceX, ISS tracking, astronomy
+-  **Energy** — carbon intensity, renewables, grid data
+- **Internet & Web** — protocols, open source, trending repos
+-  **Artificial Intelligence** — machine learning, LLMs, neural networks
+-  **Health & Biotech** — genomics, CRISPR, epidemiology
 
 ---
 
@@ -33,7 +33,7 @@ It stitches together live data, research papers, discussions, and encyclopedia e
 
 ---
 
-## 🚀 How to use
+## How to use
 
 1. **Clone or download**
    ```bash
@@ -87,5 +87,6 @@ I wanted a single page that could satisfy random curiosity — a place where you
 📄 License
 MIT — do whatever you want with it. Learn, modify, share.
 
-🙏 Credits
+Credits
 All content belongs to their respective sources (Wikipedia, arXiv, NASA, etc.). This project simply aggregates and presents it in a clean, unified interface.
+Feel free to contribute.
