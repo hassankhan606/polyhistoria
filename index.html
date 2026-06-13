@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Omniscientia — A Knowledge Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Linux+Libertine&family=Source+Serif+Pro:ital,wght@0,400;0,600;1,400&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       OMNISCIENTIA — encyclopedia-style knowledge hub
+       ============================================================ */
+    :root {
+      --page-bg: #ffffff;
+      --content-bg: #fffffe;
+      --sidebar-bg: #f6f6f6;
+      --border: #a2a9b1;
+      --border-light: #eaecf0;
+      --text: #202122;
+      --text-light: #54595d;
+      --link: #0645ad;
+      --link-visited: #0b0080;
+      --header-bg: #f8f9fa;
+      --accent: #a2a9b1;
+      --f-space: #6a5acd;
+      --f-energy: #b8860b;
+      --f-internet: #1a73a8;
+      --f-ai: #a8324a;
+      --f-health: #2e7d4f;
+      --font-body: 'Source Serif Pro', Georgia, serif;
+      --font-ui: 'Source Sans Pro', Arial, sans-serif;
+    }
+
+    [data-theme="dark"] {
+      --page-bg: #101418;
+      --content-bg: #14181c;
+      --sidebar-bg: #191e23;
+      --border: #3b4248;
+      --border-light: #2a3036;
+      --text: #dcdcdc;
+      --text-light: #a2a9b1;
+      --link: #8ab4f8;
+      --link-visited: #c79bff;
+      --header-bg: #181c20;
+      --accent: #3b4248;
+    }
+
+    [data-theme="sepia"] {
+      --page-bg: #f4ecd8;
+      --content-bg: #fbf3e3;
+      --sidebar-bg: #ece1c8;
+      --border: #cbb892;
+      --border-light: #e2d4b7;
+      --text: #3a2f23;
+      --text-light: #6b5d4a;
+      --link: #704214;
+      --link-visited: #8a5a2c;
+      --header-bg: #ece1c8;
+      --accent: #cbb892;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 14px;
+    }
+
+    body {
+      font-family: var(--font-ui);
+      background: var(--page-bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* ===================== TOP BAR ===================== */
+    .topbar {
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .topbar .left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-family: 'Linux Libertine', 'Source Serif Pro', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .logo small {
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: var(--text-light);
+      font-family: var(--font-ui);
+    }
+
+    .searchbox {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      background: var(--page-bg);
+    }
+
+    .searchbox input {
+      border: none;
+      padding: 5px 8px;
+      font-size: 0.85rem;
+      width: 180px;
+      background: transparent;
+      color: var(--text);
+      font-family: var(--font-ui);
+    }
+
+    .searchbox input:focus {
+      outline: none;
+    }
+
+    .searchbox button {
+      border: none;
+      background: var(--border-light);
+      padding: 6px 10px;
+      cursor: pointer;
+      color: var(--text-light);
+      font-family: var(--font-ui);
+    }
+
+    .theme-buttons {
+      display: flex;
+      gap: 4px;
+    }
+
+    .theme-buttons button {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      padding: 4px 9px;
+      border: 1px solid var(--border);
+      background: var(--page-bg);
+      color: var(--text);
+      cursor: pointer;
+      border-radius: 2px;
+    }
+
+    .theme-buttons button.active {
+      background: var(--text);
+      color: var(--page-bg);
+    }
+
+    /* ===================== FIELD NAV ===================== */
+    .fieldnav {
+      background: var(--content-bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 0;
+      padding: 0 16px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .fieldnav button {
+      font-family: var(--font-ui);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-light);
+      background: none;
+      border: none;
+      padding: 11px 18px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+    }
+
+    .fieldnav button:hover {
+      color: var(--text);
+      background: var(--border-light);
+    }
+
+    .fieldnav button.active {
+      color: var(--text);
+      border-bottom-color: var(--field-color, var(--accent));
+    }
+
+    /* ===================== LAYOUT ===================== */
+    .layout {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .sidebar {
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border-light);
+      padding: 18px 14px;
+      font-size: 0.82rem;
+    }
+
+    .sidebar h3 {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-light);
+      margin: 18px 0 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .sidebar h3:first-child {
+      margin-top: 0;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar li {
+      padding: 3px 0;
+    }
+
+    .sidebar a {
+      color: var(--link);
+    }
+
+    .sidebar .fact-box {
+      background: var(--content-bg);
+      border: 1px solid var(--border-light);
+      border-radius: 3px;
+      padding: 10px;
+      margin-top: 6px;
+      font-size: 0.78rem;
+      color: var(--text-light);
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .sidebar .fact-box .label {
+      font-weight: 700;
+      color: var(--text);
+      display: block;
+      margin-bottom: 3px;
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .sidebar img.thumb {
+      width: 100%;
+      border: 1px solid var(--border-light);
+      border-radius: 2px;
+      margin-bottom: 4px;
+      background: var(--border-light);
+    }
+
+    .sidebar .img-cap {
+      font-size: 0.72rem;
+      color: var(--text-light);
+      margin-bottom: 10px;
+    }
+
+    /* ===================== MAIN CONTENT ===================== */
+    .content {
+      padding: 20px 28px 60px;
+    }
+
+    .field-page.hidden {
+      display: none;
+    }
+
+    .page-title {
+      font-family: 'Linux Libertine', 'Source Serif Pro', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 6px;
+    }
+
+    .page-subtitle {
+      color: var(--text-light);
+      font-size: 0.85rem;
+      margin-bottom: 18px;
+      font-style: italic;
+    }
+
+    .lead-grid {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .lead-text {
+      font-family: var(--font-body);
+      font-size: 1rem;
+    }
+
+    .lead-text p {
+      margin-bottom: 12px;
+    }
+
+    .lead-text .dropcap::first-letter {
+      font-family: 'Linux Libertine', serif;
+      font-size: 3.2rem;
+      float: left;
+      line-height: 0.85;
+      padding-right: 6px;
+      padding-top: 4px;
+      color: var(--field-color, var(--accent));
+    }
+
+    .infobox {
+      border: 1px solid var(--border-light);
+      border-radius: 3px;
+      background: var(--sidebar-bg);
+      font-size: 0.82rem;
+    }
+
+    .infobox img {
+      width: 100%;
+      background: var(--border-light);
+    }
+
+    .infobox .ib-title {
+      font-family: 'Linux Libertine', serif;
+      font-size: 1.1rem;
+      text-align: center;
+      font-weight: 700;
+      padding: 8px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .infobox table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .infobox td {
+      padding: 6px 8px;
+      border-top: 1px solid var(--border-light);
+      vertical-align: top;
+    }
+
+    .infobox td.k {
+      font-weight: 600;
+      color: var(--text-light);
+      width: 38%;
+    }
+
+    .infobox .ib-cap {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      padding: 6px 8px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .section-title {
+      font-family: 'Linux Libertine', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+      margin: 28px 0 14px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      border: 1px solid var(--border-light);
+      border-radius: 3px;
+      background: var(--content-bg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      background: var(--border-light);
+    }
+
+    .card-body {
+      padding: 10px 12px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card h4 {
+      font-family: 'Linux Libertine', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .card h4 a {
+      color: var(--link);
+    }
+
+    .card p {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      flex: 1;
+      line-height: 1.5;
+    }
+
+    .card .meta {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid var(--border-light);
+      font-family: var(--font-ui);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .skel {
+      background: linear-gradient(100deg, var(--border-light) 30%, var(--sidebar-bg) 50%, var(--border-light) 70%);
+      background-size: 200% 100%;
+      animation: shimmer 1.3s infinite;
+    }
+
+    @keyframes shimmer {
+      to {
+        background-position: -200% 0;
+      }
+    }
+
+    .skel-card {
+      height: 190px;
+      border-radius: 3px;
+    }
+
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+
+    .panel {
+      border: 1px solid var(--border-light);
+      border-radius: 3px;
+      padding: 12px 14px;
+      background: var(--content-bg);
+    }
+
+    .panel h5 {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-light);
+      margin-bottom: 8px;
+    }
+
+    .panel .big-stat {
+      font-family: 'Linux Libertine', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--field-color, var(--accent));
+    }
+
+    .panel .sub {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    .panel ul {
+      list-style: none;
+      font-size: 0.82rem;
+    }
+
+    .panel li {
+      padding: 3px 0;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      word-break: break-word;
+    }
+
+    .panel li:last-child {
+      border-bottom: none;
+    }
+
+    .refresh-link {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      color: var(--link);
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .refresh-link:hover {
+      text-decoration: underline;
+    }
+
+    .section-head-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .quiz-box {
+      border: 1px solid var(--border-light);
+      border-radius: 3px;
+      background: var(--content-bg);
+      padding: 16px;
+      margin-top: 10px;
+    }
+
+    .quiz-meta {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-bottom: 10px;
+      font-family: var(--font-ui);
+    }
+
+    .quiz-q {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+
+    .quiz-opts {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .quiz-opt {
+      border: 1px solid var(--border-light);
+      border-radius: 3px;
+      padding: 9px 12px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      background: var(--sidebar-bg);
+    }
+
+    .quiz-opt:hover {
+      border-color: var(--field-color, var(--accent));
+    }
+
+    .quiz-opt.correct {
+      background: #d8f0db;
+      border-color: #2e7d4f;
+    }
+
+    [data-theme="dark"] .quiz-opt.correct {
+      background: #1c3324;
+    }
+
+    [data-theme="sepia"] .quiz-opt.correct {
+      background: #dde9c8;
+    }
+
+    .quiz-opt.incorrect {
+      background: #f7d9d9;
+      border-color: #a8324a;
+    }
+
+    [data-theme="dark"] .quiz-opt.incorrect {
+      background: #3a1f24;
+    }
+
+    [data-theme="sepia"] .quiz-opt.incorrect {
+      background: #ecd5c8;
+    }
+
+    .quiz-opt.disabled {
+      pointer-events: none;
+    }
+
+    .quiz-feedback {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      min-height: 1.2em;
+      margin-bottom: 10px;
+    }
+
+    .quiz-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.82rem;
+    }
+
+    .btn {
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 7px 14px;
+      border: 1px solid var(--border);
+      background: var(--sidebar-bg);
+      color: var(--text);
+      cursor: pointer;
+      border-radius: 2px;
+    }
+
+    .btn:hover {
+      background: var(--border-light);
+    }
+
+    .quiz-result {
+      text-align: center;
+      padding: 16px 0;
+    }
+
+    .quiz-result .score {
+      font-family: 'Linux Libertine', serif;
+      font-size: 2.2rem;
+      color: var(--field-color, var(--accent));
+      font-weight: 700;
+    }
+
+    .sitefooter {
+      border-top: 1px solid var(--border);
+      background: var(--header-bg);
+      padding: 24px 28px;
+      margin-top: 30px;
+      font-size: 0.78rem;
+      color: var(--text-light);
+    }
+
+    .sitefooter .cols {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .sitefooter h6 {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .sitefooter ul {
+      list-style: none;
+    }
+
+    .sitefooter li {
+      padding: 2px 0;
+    }
+
+    .sitefooter .bottom {
+      text-align: center;
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-light);
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (max-width: 880px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--border-light);
+      }
+      .lead-grid {
+        grid-template-columns: 1fr;
+      }
+      .searchbox input {
+        width: 120px;
+      }
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+<div class="topbar">
+  <div class="left">
+    <div class="logo">Omniscientia <small>the free knowledge hub</small></div>
+  </div>
+  <div class="left">
+    <div class="searchbox">
+      <input type="text" id="searchInput" placeholder="Search Wikipedia…" aria-label="Search Wikipedia">
+      <button id="searchBtn" aria-label="Search">Search</button>
+    </div>
+    <div class="theme-buttons">
+      <button data-theme-pick="light" class="active" aria-label="Light theme">Light</button>
+      <button data-theme-pick="sepia" aria-label="Sepia theme">Sepia</button>
+      <button data-theme-pick="dark" aria-label="Dark theme">Dark</button>
+    </div>
+  </div>
+</div>
+
+<nav class="fieldnav" id="fieldnav">
+  <button class="active" data-field="space" style="--field-color:var(--f-space)">Space</button>
+  <button data-field="energy" style="--field-color:var(--f-energy)">Energy</button>
+  <button data-field="internet" style="--field-color:var(--f-internet)">Internet &amp; Web</button>
+  <button data-field="ai" style="--field-color:var(--f-ai)">Artificial Intelligence</button>
+  <button data-field="health" style="--field-color:var(--f-health)">Health &amp; Biotech</button>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main id="mainContent"></main>
+</div>
+
+<footer class="sitefooter">
+  <div class="cols">
+    <div>
+      <h6>Fields</h6>
+      <ul>
+        <li><a href="#" data-field="space">Space</a></li>
+        <li><a href="#" data-field="energy">Energy</a></li>
+        <li><a href="#" data-field="internet">Internet &amp; Web</a></li>
+        <li><a href="#" data-field="ai">Artificial Intelligence</a></li>
+        <li><a href="#" data-field="health">Health &amp; Biotech</a></li>
+      </ul>
+    </div>
+    <div>
+      <h6>Article sources</h6>
+      <ul>
+        <li>Wikipedia REST API (summaries &amp; related pages)</li>
+        <li>Wikidata</li>
+        <li>arXiv (research papers)</li>
+        <li>Open Library (books)</li>
+        <li>Hacker News (Algolia)</li>
+      </ul>
+    </div>
+    <div>
+      <h6>Live data sources</h6>
+      <ul>
+        <li>NASA APOD &amp; Image Library</li>
+        <li>Open Notify (ISS &amp; astronauts)</li>
+        <li>SpaceX API (launches)</li>
+        <li>disease.sh (global health stats)</li>
+        <li>openFDA (drug data)</li>
+        <li>UK Carbon Intensity API</li>
+        <li>Open-Meteo (weather/climate)</li>
+        <li>REST Countries (energy context)</li>
+        <li>GitHub API (repositories)</li>
+        <li>Numbers API, Quotable, Advice Slip</li>
+      </ul>
+    </div>
+    <div>
+      <h6>Images</h6>
+      <ul>
+        <li>Unsplash Source API</li>
+        <li>Wikipedia thumbnails</li>
+        <li>NASA image library</li>
+      </ul>
+    </div>
+  </div>
+  <div class="bottom">Omniscientia — a personal, ad-free knowledge hub for lifelong learning, built with HTML, CSS &amp; JavaScript on top of ~20 free public APIs. Content refreshes with new articles, images and quizzes on every visit.</div>
+</footer>
+
+<script>
+  (function() {
+    /* ============================================================
+       OMNISCIENTIA — app logic (fully corrected)
+       ============================================================ */
+
+    const UNSPLASH = (query, w = 400, h = 260) =>
+      `https://source.unsplash.com/${w}x${h}/?${encodeURIComponent(query)}`;
+
+    const FIELDS = {
+      space: {
+        name: "Space",
+        color: "var(--f-space)",
+        intro: `Space is the boundless three-dimensional extent beyond Earth's atmosphere, encompassing the Moon, planets, stars, galaxies, and the vast vacuum between them. Human exploration of space began in the mid-twentieth century with early satellites and crewed missions, and has since expanded into robotic probes, space stations, and a growing private spaceflight industry. The study of space spans astronomy, astrophysics, planetary science, and aerospace engineering, and continues to reshape our understanding of the universe and our place within it.`,
+        wiki: ["Space exploration","NASA","Mars","SpaceX","International Space Station","Black hole","Exoplanet","James Webb Space Telescope","Astronomy","Solar System","Voyager program","Hubble Space Telescope","Galaxy","Apollo program","Neutron star","Milky Way","Dark matter","Cosmology"],
+        arxiv: "astronomy+astrophysics",
+        books: "astronomy",
+        sidebarLinks: ["Big Bang","Moon landing","Telescope","Asteroid","Comet","Nebula"],
+        unsplashTerms: ["galaxy","nebula","rocket launch","planet space","astronaut","telescope"]
+      },
+      energy: {
+        name: "Energy",
+        color: "var(--f-energy)",
+        intro: `Energy, in the physical and industrial sense, is the capacity to do work and the foundation of modern civilization's infrastructure. Sources of energy range from fossil fuels such as coal, oil, and natural gas to renewable sources including solar, wind, hydroelectric, and geothermal power, as well as nuclear fission and, in research stages, nuclear fusion. The way societies generate, store, and distribute energy shapes economies, environmental policy, and the pace of technological change, with a global shift toward decarbonization driving rapid innovation in batteries, grids, and clean generation.`,
+        wiki: ["Renewable energy","Solar power","Nuclear fusion","Wind power","Electric grid","Battery (electricity)","Hydroelectricity","Energy storage","Geothermal energy","Nuclear power","Fossil fuel","Hydrogen economy","Energy transition","Photovoltaics","Smart grid","Carbon capture and storage"],
+        arxiv: "renewable+energy",
+        books: "energy",
+        sidebarLinks: ["Electricity","Coal","Natural gas","Climate change","Energy policy","Power station"],
+        unsplashTerms: ["solar panels","wind turbine","power plant","electric grid","battery technology","oil rig"]
+      },
+      internet: {
+        name: "Internet & Web",
+        color: "var(--f-internet)",
+        intro: `The Internet is a global system of interconnected computer networks that use standardized communication protocols to link devices worldwide, while the World Wide Web is an information system built on top of it, allowing documents and resources to be accessed via hyperlinks. Together they have transformed communication, commerce, and culture since their development in the latter half of the twentieth century. The ecosystem includes web browsers, servers, programming languages, open-source software communities, and the protocols and infrastructure such as DNS and HTTP that keep it running.`,
+        wiki: ["History of the Internet","World Wide Web","HTTP","Open-source software","Internet protocol suite","Domain Name System","Web browser","Cloud computing","Computer security","Net neutrality","JavaScript","HTML","Search engine","Wikipedia","Linux","Open Web"],
+        arxiv: "networking+internet",
+        books: "internet",
+        sidebarLinks: ["Email","Social media","Web hosting","Cybersecurity","HTTPS","Programming language"],
+        unsplashTerms: ["computer code","server room","fiber optic","laptop programming","data center","network cables"]
+      },
+      ai: {
+        name: "Artificial Intelligence",
+        color: "var(--f-ai)",
+        intro: `Artificial intelligence (AI) is the field of computer science dedicated to building systems that can perform tasks typically associated with human cognition, including learning, reasoning, perception, and language understanding. Modern AI is dominated by machine learning, particularly deep learning with neural networks, which has enabled breakthroughs in computer vision, natural language processing, and generative systems such as large language models. AI research spans academia and industry, with ongoing debate about its capabilities, limitations, economic impact, and the safety considerations of increasingly capable systems.`,
+        wiki: ["Artificial intelligence","Machine learning","Neural network","Large language model","Deep learning","Natural language processing","Computer vision","Reinforcement learning","Generative artificial intelligence","Robotics","Turing test","Artificial general intelligence","Transformer (deep learning architecture)","Expert system","AI safety","Chatbot"],
+        arxiv: "artificial+intelligence",
+        books: "artificial intelligence",
+        sidebarLinks: ["Algorithm","Data science","Computer science","Automation","Speech recognition","Self-driving car"],
+        unsplashTerms: ["artificial intelligence","robot technology","data visualization","circuit board","futuristic technology","machine learning"]
+      },
+      health: {
+        name: "Health & Biotech",
+        color: "var(--f-health)",
+        intro: `Health and biotechnology together encompass the science of the human body, the prevention and treatment of disease, and the application of biological systems to develop new medicines, diagnostics, and therapies. The field includes traditional medicine and public health alongside cutting-edge biotechnology such as genetic engineering, CRISPR gene editing, synthetic biology, and mRNA vaccine platforms. Advances in genomics and molecular biology continue to accelerate, with implications for everything from cancer treatment to agriculture and the broader bioeconomy.`,
+        wiki: ["Biotechnology","Genome","CRISPR","Immune system","Vaccine","Genetic engineering","Human Genome Project","Synthetic biology","Cancer","Human microbiome","mRNA vaccine","Stem cell","Pharmaceutical drug","Public health","Epidemiology","Gene therapy"],
+        arxiv: "genomics+biology",
+        books: "medicine",
+        sidebarLinks: ["Anatomy","Nutrition","Pandemic","Antibiotic","DNA","Clinical trial"],
+        unsplashTerms: ["medical laboratory","dna research","hospital medicine","microscope science","vaccine research","biology cells"]
+      }
+    };
+
+    let currentField = "space";
+    const loadedPages = new Set();
+
+    /* ---------------- UTILS ---------------- */
+    async function safeFetch(url, opts = {}) {
+      try {
+        const res = await fetch(url, opts);
+        if (!res.ok) throw new Error('bad status');
+        return await res.json();
+      } catch (e) {
+        console.warn('Fetch failed for', url, e);
+        return null;
+      }
+    }
+
+    function pickRandom(arr, n) {
+      const copy = [...arr];
+      const out = [];
+      while (copy.length && out.length < n) {
+        out.push(copy.splice(Math.floor(Math.random() * copy.length), 1)[0]);
+      }
+      return out;
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>"']/g, m => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[m]));
+    }
+
+    function truncate(str, n) {
+      if (!str) return '';
+      return str.length > n ? str.slice(0, n).trim() + '…' : str;
+    }
+
+    function formatNum(n) {
+      return n == null ? '—' : Number(n).toLocaleString();
+    }
+
+    /* ---------------- THEME ---------------- */
+    document.querySelectorAll('.theme-buttons button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.body.setAttribute('data-theme', btn.dataset.themePick);
+        document.querySelectorAll('.theme-buttons button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    /* ---------------- SEARCH ---------------- */
+    document.getElementById('searchBtn').addEventListener('click', doSearch);
+    document.getElementById('searchInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') doSearch();
+    });
+
+    function doSearch() {
+      const q = document.getElementById('searchInput').value.trim();
+      if (!q) return;
+      window.open(`https://en.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(q)}`, '_blank');
+    }
+
+    /* ---------------- NAVIGATION ---------------- */
+    document.querySelectorAll('#fieldnav button[data-field]').forEach(btn => {
+      btn.addEventListener('click', () => goToField(btn.dataset.field));
+    });
+    document.querySelectorAll('.sitefooter a[data-field]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        goToField(a.dataset.field);
+      });
+    });
+
+    function goToField(field) {
+      if (!FIELDS[field]) return;
+      currentField = field;
+      document.querySelectorAll('#fieldnav button').forEach(b => b.classList.toggle('active', b.dataset.field === field));
+      document.querySelectorAll('.field-page').forEach(p => p.classList.toggle('hidden', p.id !== 'page-' + field));
+      renderSidebar(field);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (!loadedPages.has(field)) {
+        loadedPages.add(field);
+        loadFieldContent(field);
+      }
+    }
+
+    /* ---------------- SIDEBAR ---------------- */
+    async function renderSidebar(field) {
+      const f = FIELDS[field];
+      const sidebar = document.getElementById('sidebar');
+      sidebar.innerHTML = `
+        <h3>${escapeHtml(f.name)}</h3>
+        <ul>${f.sidebarLinks.map(t => `<li><a href="https://en.wikipedia.org/wiki/${encodeURIComponent(t)}" target="_blank" rel="noopener">${escapeHtml(t)}</a></li>`).join('')}</ul>
+        <h3>Related fields</h3>
+        <ul>
+          ${Object.entries(FIELDS).filter(([k]) => k !== field).map(([k, v]) => `<li><a href="#" data-field="${k}">${escapeHtml(v.name)}</a></li>`).join('')}
+        </ul>
+        <h3>Random fact</h3>
+        <div class="fact-box" id="randomFact">Loading…</div>
+        <h3>Quote of the moment</h3>
+        <div class="fact-box" id="quoteBox">Loading…</div>
+        <h3>Image of the day</h3>
+        <img class="thumb" id="sidebarImg" src="${UNSPLASH(f.unsplashTerms[0], 220, 140)}" alt="${escapeHtml(f.name)}">
+        <div class="img-cap">From Unsplash · topic: ${escapeHtml(f.unsplashTerms[0])}</div>
+      `;
+
+      sidebar.querySelectorAll('a[data-field]').forEach(a => {
+        a.addEventListener('click', e => {
+          e.preventDefault();
+          goToField(a.dataset.field);
+        });
+      });
+
+      safeFetch('https://numbersapi.com/random/trivia?json').then(d => {
+        const el = document.getElementById('randomFact');
+        if (el) el.innerHTML = `<span class="label">Number trivia</span>${escapeHtml(d ? d.text : 'Did you know every number has a story?')}`;
+      });
+
+      safeFetch('https://api.quotable.io/random').then(d => {
+        const el = document.getElementById('quoteBox');
+        if (el) el.innerHTML = d ? `<span class="label">Quote</span>“${escapeHtml(d.content)}” — ${escapeHtml(d.author)}` : `<span class="label">Quote</span>Knowledge is the only treasure that grows when shared.`;
+      });
+    }
+
+    /* ---------------- BUILD PAGE SHELLS ---------------- */
+    function buildPageShell(field) {
+      const f = FIELDS[field];
+      const main = document.getElementById('mainContent');
+      const page = document.createElement('section');
+      page.className = 'field-page' + (field === currentField ? '' : ' hidden');
+      page.id = 'page-' + field;
+      page.style.setProperty('--field-color', f.color);
+      page.innerHTML = `
+        <div class="content">
+          <h1 class="page-title">${escapeHtml(f.name)}</h1>
+          <div class="page-subtitle">From Omniscientia, the free knowledge hub — article refreshed with new sources each visit</div>
+          <div class="lead-grid">
+            <div class="lead-text">
+              <p class="dropcap">${escapeHtml(f.intro)}</p>
+            </div>
+            <div class="infobox" id="infobox-${field}">
+              <div class="skel" style="height:240px;"></div>
+            </div>
+          </div>
+          <div class="section-head-row">
+            <h2 class="section-title" style="margin-top:0">Live data</h2>
+          </div>
+          <div class="panel-grid" id="panels-${field}">
+            ${Array.from({length:3}).map(() => `<div class="panel skel" style="height:100px;"></div>`).join('')}
+          </div>
+          <div class="section-head-row">
+            <h2 class="section-title">Encyclopedia articles</h2>
+            <button class="refresh-link" data-refresh="${field}" data-target="wiki">↻ Show different articles</button>
+          </div>
+          <div class="card-grid" id="wiki-${field}">
+            ${Array.from({length:8}).map(() => `<div class="card skel skel-card"></div>`).join('')}
+          </div>
+          <div class="section-head-row">
+            <h2 class="section-title">Research papers (arXiv)</h2>
+            <button class="refresh-link" data-refresh="${field}" data-target="arxiv">↻ Show different papers</button>
+          </div>
+          <div class="card-grid" id="arxiv-${field}">
+            ${Array.from({length:4}).map(() => `<div class="card skel skel-card"></div>`).join('')}
+          </div>
+          <div class="section-head-row">
+            <h2 class="section-title">Discussions (Hacker News)</h2>
+            <button class="refresh-link" data-refresh="${field}" data-target="hn">↻ Show different threads</button>
+          </div>
+          <div class="card-grid" id="hn-${field}">
+            ${Array.from({length:4}).map(() => `<div class="card skel skel-card"></div>`).join('')}
+          </div>
+          <div class="section-head-row">
+            <h2 class="section-title">Further reading (Open Library)</h2>
+            <button class="refresh-link" data-refresh="${field}" data-target="books">↻ Show different books</button>
+          </div>
+          <div class="card-grid" id="books-${field}">
+            ${Array.from({length:4}).map(() => `<div class="card skel skel-card"></div>`).join('')}
+          </div>
+          <h2 class="section-title">Test your knowledge</h2>
+          <div class="quiz-box" id="quiz-${field}"></div>
+        </div>
+      `;
+      main.appendChild(page);
+
+      page.querySelectorAll('[data-refresh]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.dataset.target;
+          if (target === 'wiki') loadWikiArticles(field);
+          else if (target === 'arxiv') loadArxiv(field);
+          else if (target === 'hn') loadHN(field);
+          else if (target === 'books') loadBooks(field);
+        });
+      });
+    }
+
+    /* ---------------- INFOBOX ---------------- */
+    async function loadInfobox(field) {
+      const el = document.getElementById('infobox-' + field);
+      if (!el) return;
+      const f = FIELDS[field];
+
+      if (field === 'space') {
+        const apod = await safeFetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY');
+        const iss = await safeFetch('https://api.open-notify.org/iss-now.json');
+        const astros = await safeFetch('https://api.open-notify.org/astros.json');
+        el.innerHTML = `
+          ${apod && apod.media_type === 'image' ? `<img src="${apod.url}" alt="${escapeHtml(apod.title)}">` : `<img src="${UNSPLASH('galaxy stars',280,200)}" alt="Space">`}
+          <div class="ib-cap">${apod ? escapeHtml(truncate(apod.title,60)) + ' — NASA APOD' : 'Image: Unsplash'}</div>
+          <div class="ib-title">Space — quick facts</div>
+          <table>
+            <tr><td class="k">ISS location</td><td>${iss ? `lat ${Number(iss.iss_position.latitude).toFixed(2)}, lon ${Number(iss.iss_position.longitude).toFixed(2)}` : 'unavailable'}</td></tr>
+            <tr><td class="k">People in space</td><td>${astros ? astros.number + ' (' + astros.people.map(p=>p.name).slice(0,3).join(', ') + (astros.people.length>3?', …':'') + ')' : 'unavailable'}</td></tr>
+            <tr><td class="k">Field</td><td>Astronomy, astrophysics, aerospace engineering</td></tr>
+            <tr><td class="k">Key agencies</td><td>NASA, ESA, Roscosmos, ISRO, CNSA, SpaceX</td></tr>
+          </table>`;
+      } else if (field === 'energy') {
+        const carbon = await safeFetch('https://api.carbonintensity.org.uk/intensity');
+        const meteo = await safeFetch('https://api.open-meteo.com/v1/forecast?latitude=51.5&longitude=-0.12&current_weather=true');
+        el.innerHTML = `
+          <img src="${UNSPLASH(f.unsplashTerms[1],280,200)}" alt="Energy">
+          <div class="ib-cap">Image: Unsplash — wind turbine</div>
+          <div class="ib-title">Energy — quick facts</div>
+          <table>
+            <tr><td class="k">UK grid carbon intensity</td><td>${carbon ? carbon.data[0].intensity.actual + ' gCO₂/kWh (' + carbon.data[0].intensity.index + ')' : 'unavailable'}</td></tr>
+            <tr><td class="k">London current temp</td><td>${meteo ? meteo.current_weather.temperature + '°C, wind ' + meteo.current_weather.windspeed + ' km/h' : 'unavailable'}</td></tr>
+            <tr><td class="k">Field</td><td>Power generation, storage, distribution</td></tr>
+            <tr><td class="k">Key sources</td><td>Solar, wind, hydro, nuclear, fossil fuels, geothermal</td></tr>
+          </table>`;
+      } else if (field === 'internet') {
+        const repo = await safeFetch('https://api.github.com/search/repositories?q=stars:%3E10000&sort=stars&order=desc&per_page=1');
+        el.innerHTML = `
+          <img src="${UNSPLASH(f.unsplashTerms[2],280,200)}" alt="Internet">
+          <div class="ib-cap">Image: Unsplash — fiber optic network</div>
+          <div class="ib-title">Internet &amp; Web — quick facts</div>
+          <table>
+            <tr><td class="k">Top starred repo</td><td>${repo && repo.items && repo.items[0] ? `<a href="${repo.items[0].html_url}" target="_blank" rel="noopener">${escapeHtml(repo.items[0].full_name)}</a> (${formatNum(repo.items[0].stargazers_count)}★)` : 'unavailable'}</td></tr>
+            <tr><td class="k">Core protocols</td><td>TCP/IP, HTTP/HTTPS, DNS</td></tr>
+            <tr><td class="k">Invented</td><td>Late 1960s (ARPANET), Web in 1989–91 (CERN)</td></tr>
+            <tr><td class="k">Field</td><td>Computer networking, software engineering</td></tr>
+          </table>`;
+      } else if (field === 'ai') {
+        const advice = await safeFetch('https://api.adviceslip.com/advice');
+        el.innerHTML = `
+          <img src="${UNSPLASH(f.unsplashTerms[0],280,200)}" alt="AI">
+          <div class="ib-cap">Image: Unsplash — artificial intelligence concept</div>
+          <div class="ib-title">Artificial Intelligence — quick facts</div>
+          <table>
+            <tr><td class="k">Field founded</td><td>1956, Dartmouth workshop</td></tr>
+            <tr><td class="k">Core techniques</td><td>Machine learning, deep learning, NLP, computer vision</td></tr>
+            <tr><td class="k">Bonus advice</td><td>${advice ? escapeHtml(advice.slip.advice) : 'Keep learning, one model at a time.'}</td></tr>
+            <tr><td class="k">Notable systems</td><td>Deep Blue, AlphaGo, GPT-family, AlphaFold</td></tr>
+          </table>`;
+      } else if (field === 'health') {
+        const covid = await safeFetch('https://disease.sh/v3/covid-19/all');
+        el.innerHTML = `
+          <img src="${UNSPLASH(f.unsplashTerms[0],280,200)}" alt="Health">
+          <div class="ib-cap">Image: Unsplash — medical laboratory</div>
+          <div class="ib-title">Health &amp; Biotech — quick facts</div>
+          <table>
+            <tr><td class="k">Global cases (cumulative)</td><td>${covid ? formatNum(covid.cases) : 'unavailable'}</td></tr>
+            <tr><td class="k">Global recoveries</td><td>${covid ? formatNum(covid.recovered) : 'unavailable'}</td></tr>
+            <tr><td class="k">Field</td><td>Medicine, genomics, biotechnology, public health</td></tr>
+            <tr><td class="k">Key tools</td><td>CRISPR, mRNA platforms, sequencing, stem cell therapy</td></tr>
+          </table>`;
+      }
+    }
+
+    /* ---------------- LIVE DATA PANELS ---------------- */
+    async function loadPanels(field) {
+      const el = document.getElementById('panels-' + field);
+      if (!el) return;
+      const f = FIELDS[field];
+
+      if (field === 'space') {
+        const launches = await safeFetch('https://api.spacexdata.com/v5/launches/latest');
+        const next = await safeFetch('https://api.spacexdata.com/v5/launches/next');
+        el.innerHTML = `
+          <div class="panel">
+            <h5>Latest SpaceX launch</h5>
+            <div class="big-stat">${launches ? escapeHtml(launches.name) : '—'}</div>
+            <div class="sub">${launches ? new Date(launches.date_utc).toLocaleDateString() : 'data unavailable'}</div>
+          </div>
+          <div class="panel">
+            <h5>Next scheduled launch</h5>
+            <div class="big-stat">${next ? escapeHtml(next.name) : '—'}</div>
+            <div class="sub">${next ? new Date(next.date_utc).toLocaleDateString() : 'date TBD'}</div>
+          </div>
+          <div class="panel">
+            <h5>Astronauts currently in orbit</h5>
+            <ul id="astro-list"><li>Loading…</li></ul>
+          </div>`;
+        const astros = await safeFetch('https://api.open-notify.org/astros.json');
+        const list = document.getElementById('astro-list');
+        if (list) list.innerHTML = astros ? astros.people.map(p => `<li>${escapeHtml(p.name)}<span>${escapeHtml(p.craft)}</span></li>`).join('') : '<li>Data unavailable</li>';
+      } else if (field === 'energy') {
+        const carbon = await safeFetch('https://api.carbonintensity.org.uk/generation');
+        const meteo = await safeFetch('https://api.open-meteo.com/v1/forecast?latitude=35&longitude=-115&current_weather=true');
+        const gen = carbon && carbon.data ? carbon.data.generationmix : [];
+        el.innerHTML = `
+          <div class="panel">
+            <h5>UK electricity generation mix</h5>
+            <ul>${gen.slice(0,6).map(g => `<li>${escapeHtml(g.fuel)}<span>${g.perc}%</span></li>`).join('') || '<li>Data unavailable</li>'}</ul>
+          </div>
+          <div class="panel">
+            <h5>Mojave Desert (solar farm region) weather</h5>
+            <div class="big-stat">${meteo ? meteo.current_weather.temperature + '°C' : '—'}</div>
+            <div class="sub">${meteo ? 'Wind ' + meteo.current_weather.windspeed + ' km/h' : 'data unavailable'}</div>
+          </div>
+          <div class="panel">
+            <h5>Did you know</h5>
+            <div class="sub" style="font-size:0.85rem; line-height:1.6;">A single large wind turbine can power roughly 1,000 average homes, and modern solar panels typically convert 15–22% of sunlight into electricity.</div>
+          </div>`;
+      } else if (field === 'internet') {
+        const repos = await safeFetch('https://api.github.com/search/repositories?q=language:javascript&sort=stars&order=desc&per_page=5');
+        const ipInfo = await safeFetch('https://api.adviceslip.com/advice');
+        el.innerHTML = `
+          <div class="panel">
+            <h5>Trending JavaScript repositories</h5>
+            <ul>${repos && repos.items ? repos.items.slice(0,5).map(r => `<li><a href="${r.html_url}" target="_blank" rel="noopener">${escapeHtml(r.name)}</a><span>${formatNum(r.stargazers_count)}★</span></li>`).join('') : '<li>Data unavailable</li>'}</ul>
+          </div>
+          <div class="panel">
+            <h5>HTTP status of the day</h5>
+            <div class="big-stat">200</div>
+            <div class="sub">OK — the request succeeded. There are over 60 standard HTTP status codes.</div>
+          </div>
+          <div class="panel">
+            <h5>Web tip</h5>
+            <div class="sub" style="font-size:0.85rem; line-height:1.6;">${ipInfo ? escapeHtml(ipInfo.slip.advice) : 'Always use HTTPS to encrypt traffic between browser and server.'}</div>
+          </div>`;
+      } else if (field === 'ai') {
+        const repos = await safeFetch('https://api.github.com/search/repositories?q=topic:machine-learning&sort=stars&order=desc&per_page=5');
+        el.innerHTML = `
+          <div class="panel">
+            <h5>Top machine-learning repositories</h5>
+            <ul>${repos && repos.items ? repos.items.slice(0,5).map(r => `<li><a href="${r.html_url}" target="_blank" rel="noopener">${escapeHtml(r.name)}</a><span>${formatNum(r.stargazers_count)}★</span></li>`).join('') : '<li>Data unavailable</li>'}</ul>
+          </div>
+          <div class="panel">
+            <h5>Field timeline</h5>
+            <div class="sub" style="font-size:0.85rem; line-height:1.7;">1956: term "AI" coined · 1997: Deep Blue beats Kasparov · 2012: deep learning breakthrough (ImageNet) · 2016: AlphaGo beats Lee Sedol · 2020s: large language models go mainstream.</div>
+          </div>
+          <div class="panel">
+            <h5>Concept check</h5>
+            <div class="big-stat">∑wx+b</div>
+            <div class="sub">The basic computation inside a single artificial neuron, before an activation function is applied.</div>
+          </div>`;
+      } else if (field === 'health') {
+        const covidUS = await safeFetch('https://disease.sh/v3/covid-19/countries/USA');
+        const fda = await safeFetch('https://api.fda.gov/drug/event.json?limit=1');
+        el.innerHTML = `
+          <div class="panel">
+            <h5>United States — health snapshot</h5>
+            <ul>
+              <li>Total cases<span>${covidUS ? formatNum(covidUS.cases) : '—'}</span></li>
+              <li>Total deaths<span>${covidUS ? formatNum(covidUS.deaths) : '—'}</span></li>
+              <li>Population<span>${covidUS ? formatNum(covidUS.population) : '—'}</span></li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h5>openFDA database</h5>
+            <div class="big-stat">${fda && fda.meta ? formatNum(fda.meta.results.total) : '—'}</div>
+            <div class="sub">Adverse event reports indexed in the FDA's open drug safety database.</div>
+          </div>
+          <div class="panel">
+            <h5>Did you know</h5>
+            <div class="sub" style="font-size:0.85rem; line-height:1.6;">The human genome contains roughly 3.1 billion base pairs and an estimated 20,000–25,000 genes, first fully sequenced in draft form in 2003.</div>
+          </div>`;
+      }
+    }
+
+    /* ---------------- WIKIPEDIA ARTICLES ---------------- */
+    async function loadWikiArticles(field) {
+      const el = document.getElementById('wiki-' + field);
+      if (!el) return;
+      const f = FIELDS[field];
+      el.innerHTML = Array.from({length:8}).map(() => `<div class="card skel skel-card"></div>`).join('');
+
+      const titles = pickRandom(f.wiki, Math.min(8, f.wiki.length));
+      const results = await Promise.all(titles.map(async title => {
+        const data = await safeFetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`);
+        if (!data) return null;
+        return {
+          title: data.title,
+          summary: data.extract || 'No summary available.',
+          image: data.thumbnail ? data.thumbnail.source : UNSPLASH(pickRandom(f.unsplashTerms,1)[0], 300, 180),
+          url: data.content_urls ? data.content_urls.desktop.page : `https://en.wikipedia.org/wiki/${encodeURIComponent(title)}`
+        };
+      }));
+      const valid = results.filter(Boolean);
+      if (valid.length === 0) {
+        el.innerHTML = `<p style="color:var(--text-light)">Articles unavailable right now — try the refresh link again.</p>`;
+        return;
+      }
+      el.innerHTML = valid.map(a => `
+        <div class="card">
+          <img src="${a.image}" alt="${escapeHtml(a.title)}" loading="lazy">
+          <div class="card-body">
+            <h4><a href="${a.url}" target="_blank" rel="noopener">${escapeHtml(a.title)}</a></h4>
+            <p>${escapeHtml(truncate(a.summary,150))}</p>
+            <div class="meta">Wikipedia</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* ---------------- ARXIV ---------------- */
+    async function loadArxiv(field) {
+      const el = document.getElementById('arxiv-' + field);
+      if (!el) return;
+      const f = FIELDS[field];
+      el.innerHTML = Array.from({length:4}).map(() => `<div class="card skel skel-card"></div>`).join('');
+
+      const start = Math.floor(Math.random() * 40);
+      const xml = await fetchArxivXml(`https://export.arxiv.org/api/query?search_query=all:${f.arxiv}&start=${start}&max_results=8&sortBy=submittedDate&sortOrder=descending`);
+      if (!xml) {
+        el.innerHTML = `<p style="color:var(--text-light)">Papers unavailable right now — try the refresh link again.</p>`;
+        return;
+      }
+      const entries = pickRandom(xml, Math.min(4, xml.length));
+      el.innerHTML = entries.map(e => `
+        <div class="card">
+          <img src="${UNSPLASH(pickRandom(f.unsplashTerms,1)[0]+' research', 300,180)}" alt="Research" loading="lazy">
+          <div class="card-body">
+            <h4><a href="${e.link}" target="_blank" rel="noopener">${escapeHtml(truncate(e.title,90))}</a></h4>
+            <p>${escapeHtml(truncate(e.summary,150))}</p>
+            <div class="meta">arXiv · ${e.published}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function fetchArxivXml(url) {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('bad');
+        const text = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(text, 'text/xml');
+        const entries = [...doc.getElementsByTagName('entry')];
+        return entries.map(e => ({
+          title: e.getElementsByTagName('title')[0]?.textContent.trim().replace(/\s+/g, ' '),
+          summary: e.getElementsByTagName('summary')[0]?.textContent.trim().replace(/\s+/g, ' '),
+          link: e.getElementsByTagName('id')[0]?.textContent.trim(),
+          published: (e.getElementsByTagName('published')[0]?.textContent || '').slice(0, 10)
+        }));
+      } catch (e) {
+        return null;
+      }
+    }
+
+    /* ---------------- HACKER NEWS ---------------- */
+    async function loadHN(field) {
+      const el = document.getElementById('hn-' + field);
+      if (!el) return;
+      const f = FIELDS[field];
+      el.innerHTML = Array.from({length:4}).map(() => `<div class="card skel skel-card"></div>`).join('');
+
+      const queryMap = {
+        space: "space OR NASA OR SpaceX OR astronomy",
+        energy: "energy OR solar OR battery OR nuclear OR fusion",
+        internet: "web OR internet OR browser OR open source",
+        ai: "AI OR machine learning OR LLM OR neural network",
+        health: "biotech OR genome OR CRISPR OR vaccine"
+      };
+      const data = await safeFetch(`https://hn.algolia.com/api/v1/search?query=${encodeURIComponent(queryMap[field])}&tags=story&numericFilters=points>15&hitsPerPage=20`);
+      if (!data || !data.hits || data.hits.length === 0) {
+        el.innerHTML = `<p style="color:var(--text-light)">Discussions unavailable right now — try the refresh link again.</p>`;
+        return;
+      }
+      const hits = pickRandom(data.hits.filter(h => h.title), 4);
+      el.innerHTML = hits.map(h => `
+        <div class="card">
+          <img src="${UNSPLASH(pickRandom(f.unsplashTerms,1)[0], 300,180)}" alt="Discussion" loading="lazy">
+          <div class="card-body">
+            <h4><a href="${h.url || 'https://news.ycombinator.com/item?id=' + h.objectID}" target="_blank" rel="noopener">${escapeHtml(truncate(h.title,90))}</a></h4>
+            <p>${h.points} points, ${h.num_comments||0} comments. Posted by ${escapeHtml(h.author)}.</p>
+            <div class="meta">Hacker News</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* ---------------- OPEN LIBRARY ---------------- */
+    async function loadBooks(field) {
+      const el = document.getElementById('books-' + field);
+      if (!el) return;
+      const f = FIELDS[field];
+      el.innerHTML = Array.from({length:4}).map(() => `<div class="card skel skel-card"></div>`).join('');
+
+      const data = await safeFetch(`https://openlibrary.org/search.json?subject=${encodeURIComponent(f.books)}&limit=20`);
+      if (!data || !data.docs || data.docs.length === 0) {
+        el.innerHTML = `<p style="color:var(--text-light)">Books unavailable right now — try the refresh link again.</p>`;
+        return;
+      }
+      const docs = pickRandom(data.docs.filter(d => d.title), 4);
+      el.innerHTML = docs.map(d => {
+        const cover = d.cover_i ? `https://covers.openlibrary.org/b/id/${d.cover_i}-M.jpg` : UNSPLASH('open book', 300, 180);
+        const link = `https://openlibrary.org${d.key}`;
+        return `
+        <div class="card">
+          <img src="${cover}" alt="${escapeHtml(d.title)}" loading="lazy">
+          <div class="card-body">
+            <h4><a href="${link}" target="_blank" rel="noopener">${escapeHtml(truncate(d.title,80))}</a></h4>
+            <p>${escapeHtml(d.author_name ? d.author_name.join(', ') : 'Unknown author')}${d.first_publish_year ? ' · ' + d.first_publish_year : ''}</p>
+            <div class="meta">Open Library</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    /* ---------------- LOAD ALL CONTENT FOR A FIELD ---------------- */
+    async function loadFieldContent(field) {
+      await Promise.all([
+        loadInfobox(field),
+        loadPanels(field),
+        loadWikiArticles(field),
+        loadArxiv(field),
+        loadHN(field),
+        loadBooks(field)
+      ]);
+      buildQuiz(field);
+    }
+
+    /* ---------------- QUIZ ---------------- */
+    const QUIZ_BANKS = {
+      space: [
+        {q:"What is the name of the boundary around a black hole beyond which nothing can escape?", options:["Event horizon","Photon sphere","Schwarzschild line","Singularity wall"], a:0},
+        {q:"Which planet has the most extensive ring system in the Solar System?", options:["Jupiter","Uranus","Neptune","Saturn"], a:3},
+        {q:"What does the James Webb Space Telescope primarily observe in?", options:["Visible light only","Infrared light","Gamma rays","Radio waves only"], a:1},
+        {q:"Which company pioneered reusable orbital-class rocket booster landings?", options:["Blue Origin","NASA","SpaceX","Roscosmos"], a:2},
+        {q:"What is the closest star system to our Sun?", options:["Sirius","Alpha Centauri","Proxima Centauri","Barnard's Star"], a:2},
+        {q:"Which spacecraft became the first human-made object to leave the Solar System?", options:["Voyager 1","Pioneer 10","New Horizons","Cassini"], a:0},
+        {q:"What gas makes up most of Mars' atmosphere?", options:["Oxygen","Nitrogen","Carbon dioxide","Methane"], a:2},
+        {q:"What is a star's collapsed remnant called after a supernova, if massive enough?", options:["White dwarf","Neutron star","Red giant","Brown dwarf"], a:1},
+        {q:"Which agency operates the ISS alongside NASA, ESA, JAXA and CSA?", options:["Roscosmos","ISRO","CNSA","UKSA"], a:0},
+        {q:"What is an exoplanet?", options:["A moon of Jupiter","A planet outside our Solar System","A dwarf planet","An asteroid with a ring"], a:1},
+        {q:"What does 'light-year' measure?", options:["Time","Speed","Distance","Brightness"], a:2},
+        {q:"Which mission first landed humans on the Moon?", options:["Apollo 11","Apollo 13","Gemini 8","Mercury 7"], a:0}
+      ],
+      energy: [
+        {q:"Which renewable energy source relies on heat from the Earth's interior?", options:["Tidal","Geothermal","Biomass","Wind"], a:1},
+        {q:"What process powers the Sun and is researched for clean energy on Earth?", options:["Fission","Combustion","Fusion","Radioactive decay"], a:2},
+        {q:"What is the main unit of electrical power?", options:["Volt","Ampere","Watt","Ohm"], a:2},
+        {q:"What battery chemistry is most common in electric vehicles today?", options:["Lead-acid","Nickel-cadmium","Lithium-ion","Alkaline"], a:2},
+        {q:"What do solar photovoltaic cells convert directly into electricity?", options:["Heat","Sunlight","Wind","Chemical energy"], a:1},
+        {q:"What is 'the grid' in energy terms?", options:["A type of solar panel","A network for distributing electricity","A nuclear reactor design","A battery storage facility"], a:1},
+        {q:"Which fossil fuel has historically dominated electricity generation in many countries?", options:["Coal","Propane","Kerosene","Diesel only"], a:0},
+        {q:"What does 'energy storage' most commonly refer to in modern grids?", options:["Storing sunlight in jars","Batteries and pumped hydro systems","Burning more fuel","Reducing electricity use"], a:1},
+        {q:"What is hydrogen often proposed as in a future energy economy?", options:["A fossil fuel replacement and energy carrier","A type of solar panel","A nuclear fuel only","A battery brand"], a:0},
+        {q:"Wind turbines convert kinetic energy of moving air into what?", options:["Heat","Mechanical, then electrical energy","Chemical energy","Light"], a:1},
+        {q:"What is a key advantage of nuclear power often cited by proponents?", options:["Zero waste produced","Low carbon emissions during operation","No regulation needed","Instant construction time"], a:1},
+        {q:"Hydroelectricity generates power primarily using what?", options:["Falling or flowing water","Geothermal vents","Solar panels on water","Wind over lakes"], a:0}
+      ],
+      internet: [
+        {q:"What does HTTP stand for?", options:["HyperText Transfer Protocol","Hyperlink Text Transmission Process","High Transfer Text Pathway","Host Text Transport Protocol"], a:0},
+        {q:"What does DNS primarily do?", options:["Encrypts website traffic","Translates domain names into IP addresses","Compresses web pages","Hosts websites"], a:1},
+        {q:"Which organization originally developed the World Wide Web?", options:["Google","CERN","Microsoft","IBM"], a:1},
+        {q:"What does 'open source' software mean?", options:["It's always free of charge","Its source code is publicly available to view and modify","It only runs on Linux","It has no license at all"], a:1},
+        {q:"What is the role of a web browser?", options:["To store files permanently","To render and display web pages","To run a web server","To assign IP addresses"], a:1},
+        {q:"What does 'the cloud' refer to in cloud computing?", options:["Weather data centers","Remote servers accessed over the internet","A type of cable","A browser extension"], a:1},
+        {q:"What is net neutrality about?", options:["Internet speed limits for everyone","ISPs treating all traffic equally without discrimination","Free Wi-Fi for all","Banning certain websites"], a:1},
+        {q:"What is JavaScript primarily used for?", options:["Styling pages only","Adding interactivity and logic to web pages","Storing databases","Designing logos"], a:1},
+        {q:"What does HTML stand for?", options:["HyperText Markup Language","Home Tool Markup Language","HyperTransfer Modeling Language","High-Tech Markup Logic"], a:0},
+        {q:"What is a key purpose of cybersecurity?", options:["Making websites load faster","Protecting systems and data from unauthorized access","Designing user interfaces","Increasing internet speed"], a:1},
+        {q:"What protocol suite is the foundation of the modern Internet?", options:["TCP/IP","SMTP/POP3","FTP/SSH","HTML/CSS"], a:0},
+        {q:"What predated the modern Web as an early online service?", options:["Bulletin Board Systems (BBS)","Cloud gaming","Streaming TV","Smartphones"], a:0}
+      ],
+      ai: [
+        {q:"What is 'machine learning'?", options:["Programming computers with fixed rules only","Systems that improve from data and experience","A type of hardware chip","A web browser feature"], a:1},
+        {q:"What does LLM stand for in AI?", options:["Large Language Model","Linear Learning Method","Logical Layer Mapping","Limited Loop Memory"], a:0},
+        {q:"What is a neural network loosely inspired by?", options:["Computer circuits","Biological neurons","Sound waves","Traffic networks"], a:1},
+        {q:"What does 'training' a model generally involve?", options:["Adjusting parameters based on data to reduce error","Manually writing every output","Compiling code only","Connecting to the internet"], a:0},
+        {q:"What is computer vision concerned with?", options:["Teaching computers to understand images and video","Improving monitor resolution","Speeding up internet connections","Writing text only"], a:0},
+        {q:"What is reinforcement learning based on?", options:["Labeled datasets only","An agent learning via rewards and penalties","Random guessing with no feedback","Pre-written rules only"], a:1},
+        {q:"What does 'generative AI' typically do?", options:["Only classifies existing data","Creates new content like text, images, or audio","Deletes data automatically","Only translates languages"], a:1},
+        {q:"What is natural language processing (NLP)?", options:["A field enabling computers to understand and generate human language","A method for compressing images","A type of computer chip","A networking protocol"], a:0},
+        {q:"What does the Turing Test evaluate?", options:["Computer processing speed","Whether a machine's behavior is indistinguishable from a human's","Internet bandwidth","Battery life of robots"], a:1},
+        {q:"What is 'overfitting' in machine learning?", options:["A model that performs well on training data but poorly on new data","A model too small to run","A network connection error","A type of hardware failure"], a:0},
+        {q:"What is artificial general intelligence (AGI)?", options:["AI that can only play games","Hypothetical AI with broad human-level abilities across tasks","A type of search engine","A robot's battery system"], a:1},
+        {q:"What are 'parameters' in a neural network?", options:["The internal values the model learns during training","The number of users","The screen resolution","The internet speed required"], a:0}
+      ],
+      health: [
+        {q:"What does CRISPR technology primarily allow scientists to do?", options:["Edit specific sequences of DNA","Take medical images","Measure blood pressure","Manufacture vaccines only"], a:0},
+        {q:"What is the human genome?", options:["The complete set of genetic instructions in a human","A type of blood cell","A medical scanning device","A vaccine ingredient"], a:0},
+        {q:"What does a vaccine generally do?", options:["Cure all diseases instantly","Train the immune system to recognize a pathogen","Replace blood cells","Increase body temperature permanently"], a:1},
+        {q:"What is the immune system's main job?", options:["Digesting food","Defending the body against pathogens","Pumping blood","Producing hormones only"], a:1},
+        {q:"What does mRNA vaccine technology use to trigger an immune response?", options:["Live virus particles only","Genetic instructions for cells to make a protein","Antibiotics","Sugar molecules"], a:1},
+        {q:"What field combines biology with engineering to design new biological systems?", options:["Synthetic biology","Astrophysics","Thermodynamics","Cryptography"], a:0},
+        {q:"What is the human microbiome?", options:["The collection of microorganisms living in and on the human body","A brain scanning technique","A type of vaccine","A genetic disorder"], a:0},
+        {q:"What are stem cells known for?", options:["Their ability to develop into different cell types","Carrying oxygen in blood only","Producing digestive enzymes","Forming hair and nails only"], a:0},
+        {q:"What does 'genetic engineering' involve?", options:["Deliberately modifying an organism's DNA","Building computer chips","Designing buildings","Studying weather patterns"], a:0},
+        {q:"What is cancer fundamentally characterized by?", options:["Uncontrolled growth and division of abnormal cells","A vitamin deficiency","A bacterial infection only","Low blood pressure"], a:0},
+        {q:"What project mapped nearly all human genes?", options:["The Human Genome Project","The Manhattan Project","The Apollo Program","The Hubble Survey"], a:0},
+        {q:"How is biotechnology broadly defined?", options:["Using biological systems or organisms to develop products and technologies","Only building robots","Studying stars","Mining minerals"], a:0}
+      ]
+    };
+
+    function buildQuiz(field) {
+      const container = document.getElementById('quiz-' + field);
+      if (!container) return;
+      const bank = QUIZ_BANKS[field];
+      if (!bank) return;
+      const questions = pickRandom(bank, 5);
+      let current = 0, score = 0;
+
+      render();
+
+      function render() {
+        if (current >= questions.length) {
+          const pct = Math.round((score / questions.length) * 100);
+          let msg = "Review the articles above and try again.";
+          if (pct >= 80) msg = "Excellent — strong command of this topic.";
+          else if (pct >= 50) msg = "Good progress — a little more reading and you'll have this mastered.";
+          container.innerHTML = `
+            <div class="quiz-result">
+              <div class="score">${score} / ${questions.length}</div>
+              <p style="color:var(--text-light); margin:8px 0 14px;">${msg}</p>
+              <button class="btn" id="retry-${field}">New quiz</button>
+            </div>`;
+          document.getElementById(`retry-${field}`).addEventListener('click', () => buildQuiz(field));
+          return;
+        }
+        const q = questions[current];
+        let answered = false;
+        container.innerHTML = `
+          <div class="quiz-meta">Question ${current + 1} of ${questions.length} — Score: ${score}</div>
+          <div class="quiz-q">${escapeHtml(q.q)}</div>
+          <div class="quiz-opts">${q.options.map((o, i) => `<div class="quiz-opt" data-idx="${i}">${escapeHtml(o)}</div>`).join('')}</div>
+          <div class="quiz-feedback" id="qf-${field}"></div>
+          <div class="quiz-foot">
+            <span></span>
+            <button class="btn" id="next-${field}" style="visibility:hidden">Next question</button>
+          </div>`;
+        container.querySelectorAll('.quiz-opt').forEach(opt => {
+          opt.addEventListener('click', () => {
+            if (answered) return;
+            answered = true;
+            const idx = parseInt(opt.dataset.idx);
+            container.querySelectorAll('.quiz-opt').forEach(o => o.classList.add('disabled'));
+            const fb = document.getElementById(`qf-${field}`);
+            if (idx === q.a) {
+              opt.classList.add('correct');
+              score++;
+              fb.textContent = "Correct.";
+            } else {
+              opt.classList.add('incorrect');
+              container.querySelector(`.quiz-opt[data-idx="${q.a}"]`).classList.add('correct');
+              fb.textContent = "Incorrect — the correct answer is highlighted.";
+            }
+            const next = document.getElementById(`next-${field}`);
+            next.style.visibility = 'visible';
+            next.addEventListener('click', () => { current++; render(); });
+          });
+        });
+      }
+    }
+
+    /* ---------------- INIT ---------------- */
+    Object.keys(FIELDS).forEach(buildPageShell);
+    renderSidebar(currentField);
+    loadedPages.add(currentField);
+    loadFieldContent(currentField);
+  })();
+</script>
+</body>
+</html>
